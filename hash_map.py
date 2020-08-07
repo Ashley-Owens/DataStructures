@@ -70,9 +70,23 @@ class HashMap:
 
     def get(self, key: str) -> object:
         """
-        TODO: Write this implementation
+        Args:
+            key (str): given key
+        Returns:
+            object: the value associated with the given key or None
         """
-        return None
+        # Determines the appropriate index for the given key.
+        hash_index = self.hash_function(key) % self.capacity
+
+        # Obtains the current object at the DA hash_index.
+        linkedlst = self.buckets.get_at_index(hash_index)
+
+        # Determines if the key exists in the Linked List object.
+        node = linkedlst.contains(key)
+        if not node:
+            return None
+
+        return node.value
 
     def put(self, key: str, value: object) -> None:
         """
@@ -284,23 +298,23 @@ if __name__ == "__main__":
     # print(result)
 
 
-    # print("\nPDF - get example 1")
-    # print("-------------------")
-    # m = HashMap(30, hash_function_1)
-    # print(m.get('key'))
-    # m.put('key1', 10)
-    # print(m.get('key1'))
+    print("\nPDF - get example 1")
+    print("-------------------")
+    m = HashMap(30, hash_function_1)
+    print(m.get('key'))
+    m.put('key1', 10)
+    print(m.get('key1'))
 
 
-    # print("\nPDF - get example 2")
-    # print("-------------------")
-    # m = HashMap(150, hash_function_2)
-    # for i in range(200, 300, 7):
-    #     m.put(str(i), i * 10)
-    # print(m.size, m.capacity)
-    # for i in range(200, 300, 21):
-    #     print(i, m.get(str(i)), m.get(str(i)) == i * 10)
-    #     print(i + 1, m.get(str(i + 1)), m.get(str(i + 1)) == (i + 1) * 10)
+    print("\nPDF - get example 2")
+    print("-------------------")
+    m = HashMap(150, hash_function_2)
+    for i in range(200, 300, 7):
+        m.put(str(i), i * 10)
+    print(m.size, m.capacity)
+    for i in range(200, 300, 21):
+        print(i, m.get(str(i)), m.get(str(i)) == i * 10)
+        print(i + 1, m.get(str(i + 1)), m.get(str(i + 1)) == (i + 1) * 10)
 
 
     # print("\nPDF - remove example 1")
