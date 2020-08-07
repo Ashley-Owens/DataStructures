@@ -1,6 +1,6 @@
 # Course: CS261 - Data Structures
 # Assignment: 5
-# Student:
+# Student: Ashley Owens
 # Description:
 
 
@@ -58,9 +58,15 @@ class HashMap:
 
     def clear(self) -> None:
         """
-        TODO: Write this implementation
+        Clears the contents of the hash map.
         """
-        pass
+        self.buckets = DynamicArray()
+        for _ in range(self.capacity):
+            self.buckets.append(LinkedList())
+        self.capacity = self.capacity
+        self.hash_function = self.hash_function
+        self.size = 0
+        
 
     def get(self, key: str) -> object:
         """
@@ -70,14 +76,19 @@ class HashMap:
 
     def put(self, key: str, value: object) -> None:
         """
-        TODO: Write this implementation
+        Updates the key/value pair in the hash map. If a given key already exists, 
+        its value is replaced with the new value. Otherwise, a key/value pair is added.
+        Args:
+            key (str): key
+            value (object): value
         """
         # Determines the appropriate index for the given key.
         hash_index = self.hash_function(key) % self.capacity
 
-        # Obtains the object at the hash_index.
+        # Obtains the current object at the DA hash_index.
         linkedlst = self.buckets.get_at_index(hash_index)
 
+        # Determines if the key already exists in the Linked List object.
         node = linkedlst.contains(key)
 
         # If key not present, creates a new key/value pair at the associated hash index. 
@@ -85,12 +96,9 @@ class HashMap:
             linkedlst.insert(key, value)
             self.size += 1
 
-        # If hash key is already present in the DA, updates node value.
+        # If key is already present in the hash map, updates its value.
         else:
-            for node in linkedlst:
-                if linkedlst.contains(key):
-                    node.value = value
-          
+            node.value = value
 
     def remove(self, key: str) -> None:
         """
@@ -100,9 +108,23 @@ class HashMap:
 
     def contains_key(self, key: str) -> bool:
         """
-        TODO: Write this implementation
+        Args:
+            key (str): given key being searched for
+        Returns:
+            bool: True if present, else False
         """
-        return False
+        # Determines the appropriate index for the given key.
+        hash_index = self.hash_function(key) % self.capacity
+
+        # Obtains the current object at the DA hash_index.
+        linkedlst = self.buckets.get_at_index(hash_index)
+
+        # Determines if the key exists in the Linked List object.
+        node = linkedlst.contains(key)
+        if not node:
+            return False
+
+        return node.key == key
 
     def empty_buckets(self) -> int:
         """
@@ -121,12 +143,12 @@ class HashMap:
 
         return count
 
-
     def table_load(self) -> float:
         """
-        TODO: Write this implementation
+        Returns:
+            float: average number of elements in each bucket.
         """
-        return 0.0
+        return (self.size / self.capacity)
 
     def resize_table(self, new_capacity: int) -> None:
         """
@@ -213,14 +235,14 @@ if __name__ == "__main__":
     # print(m.size, m.capacity)
 
 
-    print("\nPDF - put example 1")
-    print("-------------------")
-    m = HashMap(50, hash_function_1)
-    for i in range(150):
-        m.put('str' + str(i), i * 100)
-        if i % 25 == 24:
-            print(m.empty_buckets(), m.table_load(), m.size, m.capacity)
-
+    # print("\nPDF - put example 1")
+    # print("-------------------")
+    # m = HashMap(50, hash_function_1)
+    # for i in range(150):
+    #     m.put('str' + str(i), i * 100)
+    #     if i % 25 == 24:
+    #         print(m.empty_buckets(), m.table_load(), m.size, m.capacity)
+    # # m.put('str' + str(0), 1)
 
     # print("\nPDF - put example 2")
     # print("-------------------")
