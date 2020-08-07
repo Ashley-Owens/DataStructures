@@ -223,21 +223,39 @@ class HashMap:
         return keys
 
 
+import unittest
+class TestDivisibility(unittest.TestCase):#TestCases
+    
+        def test_get_keys(self):
+            """Checks that the hash_table method returns a DynamicArray that contains all keys stored in your hash map"""
+            m = HashMap(10, hash_function_2)
+            for i in range(100, 200, 10):
+                m.put(str(i), str(i * 10))
+            self.assertEqual(str(m.get_keys()),"['160', '110', '170', '120', '180', '130', '190', '140', '150', '100']")
+            m.resize_table(1)
+            self.assertEqual(str(m.get_keys()),"['100', '150', '140', '190', '130', '180', '120', '170', '110', '160']")
+            m.put('200', '2000')
+            m.remove('100')
+            m.resize_table(2)
+            self.assertEqual(str(m.get_keys()),"['200', '160', '110', '170', '120', '180', '130', '190', '140', '150']")
+
+  
+
 # BASIC TESTING
 if __name__ == "__main__":
 
-    print("\nPDF - empty_buckets example 1")
-    print("-----------------------------")
-    m = HashMap(100, hash_function_1)
-    print(m.empty_buckets(), m.size, m.capacity)
-    m.put('key1', 10)
-    print(m.empty_buckets(), m.size, m.capacity)
-    m.put('key2', 20)
-    print(m.empty_buckets(), m.size, m.capacity)
-    m.put('key1', 30)
-    print(m.empty_buckets(), m.size, m.capacity)
-    m.put('key4', 40)
-    print(m.empty_buckets(), m.size, m.capacity)
+    # print("\nPDF - empty_buckets example 1")
+    # print("-----------------------------")
+    # m = HashMap(100, hash_function_1)
+    # print(m.empty_buckets(), m.size, m.capacity)
+    # m.put('key1', 10)
+    # print(m.empty_buckets(), m.size, m.capacity)
+    # m.put('key2', 20)
+    # print(m.empty_buckets(), m.size, m.capacity)
+    # m.put('key1', 30)
+    # print(m.empty_buckets(), m.size, m.capacity)
+    # m.put('key4', 40)
+    # print(m.empty_buckets(), m.size, m.capacity)
 
 
     # print("\nPDF - empty_buckets example 2")
@@ -424,4 +442,7 @@ if __name__ == "__main__":
     # print(m.get_keys())
     # print(m)
 
-    
+
+    unittest.main()
+   
+

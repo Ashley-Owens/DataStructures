@@ -80,9 +80,15 @@ class MinHeap:
 
     def get_min(self) -> object:
         """
-        TODO: Write this implementation
+        Raises:
+            MinHeapException: empty heap
+        Returns:
+            object: minimum object in the heap
         """
-        return None
+        if self.is_empty():
+            raise MinHeapException
+        
+        return self.heap.get_at_index(0)
 
     def remove_min(self) -> object:
         """
@@ -100,13 +106,13 @@ class MinHeap:
 # BASIC TESTING
 if __name__ == '__main__':
 
-    print("\nPDF - add example 1")
-    print("-------------------")
-    h = MinHeap()
-    print(h, h.is_empty())
-    for value in range(300, 200, -15):
-        h.add(value)
-        print(h)
+    # print("\nPDF - add example 1")
+    # print("-------------------")
+    # h = MinHeap()
+    # print(h, h.is_empty())
+    # for value in range(300, 200, -15):
+    #     h.add(value)
+    #     print(h)
 
     # print("\nPDF - add example 2")
     # print("-------------------")
