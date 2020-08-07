@@ -75,14 +75,9 @@ class HashMap:
         Returns:
             object: the value associated with the given key or None
         """
-        # Determines the appropriate index for the given key.
-        hash_index = self.hash_function(key) % self.capacity
-
-        # Obtains the current object at the DA hash_index.
-        linkedlst = self.buckets.get_at_index(hash_index)
-
-        # Determines if the key exists in the Linked List object.
-        node = linkedlst.contains(key)
+        # Obtains the LL object and node associated with given key.
+        linkedlst, node = self.get_node(key)
+        
         if not node:
             return None
 
@@ -96,17 +91,10 @@ class HashMap:
             key (str): key
             value (object): value
         """
-        # Determines the appropriate index for the given key.
-        hash_index = self.hash_function(key) % self.capacity
+        # Obtains the LL object and node associated with given key.
+        linkedlst, node = self.get_node(key)
 
-        # Obtains the current object at the DA hash_index.
-        linkedlst = self.buckets.get_at_index(hash_index)
-
-        # Determines if the key already exists in the Linked List object.
-        node = linkedlst.contains(key)
-
-        # If key not present, creates a new key/value pair at the associated hash index. 
-        if node is None:
+        if not node:
             linkedlst.insert(key, value)
             self.size += 1
 
@@ -116,9 +104,38 @@ class HashMap:
 
     def remove(self, key: str) -> None:
         """
-        TODO: Write this implementation
+        Removes the given key and its associated value from the hash map.
+        If key is not present, no operations is performed.
+        Args:
+            key (str): given key
         """
-        pass
+        # Obtains the LL object and node associated with given key.
+        linkedlst, node = self.get_node(key)
+        
+        if not node:
+            return 
+        
+        # Removes the key: value pair from the linked list.
+        linkedlst.remove(key)
+    
+    def get_node(self, key: str) -> object:
+        """
+        Gets the Linked List node associated with the given key.
+        Args:
+            key (str): node.key
+        Returns:
+            tuple: Linked List and node objects
+        """
+        # Determines the associated DA index for the given key.
+        hash_index = self.hash_function(key) % self.capacity
+
+        # Obtains the current object at the DA hash_index.
+        linkedlst = self.buckets.get_at_index(hash_index)
+
+        # Determines if the key exists in the Linked List object.
+        node = linkedlst.contains(key)
+
+        return linkedlst, node
 
     def contains_key(self, key: str) -> bool:
         """
@@ -127,14 +144,9 @@ class HashMap:
         Returns:
             bool: True if present, else False
         """
-        # Determines the appropriate index for the given key.
-        hash_index = self.hash_function(key) % self.capacity
-
-        # Obtains the current object at the DA hash_index.
-        linkedlst = self.buckets.get_at_index(hash_index)
-
-        # Determines if the key exists in the Linked List object.
-        node = linkedlst.contains(key)
+        # Obtains the LL object and node associated with given key.
+        linkedlst, node = self.get_node(key)
+        
         if not node:
             return False
 
@@ -151,7 +163,7 @@ class HashMap:
         for i in range(self.capacity):
             linkedlst = self.buckets.get_at_index(i)
 
-            # If the list is empty, increments counter.
+            # If the list is empty, increments bucket counter.
             if linkedlst.length() == 0:
                 count += 1
 
@@ -298,23 +310,23 @@ if __name__ == "__main__":
     # print(result)
 
 
-    print("\nPDF - get example 1")
-    print("-------------------")
-    m = HashMap(30, hash_function_1)
-    print(m.get('key'))
-    m.put('key1', 10)
-    print(m.get('key1'))
+    # print("\nPDF - get example 1")
+    # print("-------------------")
+    # m = HashMap(30, hash_function_1)
+    # print(m.get('key'))
+    # m.put('key1', 10)
+    # print(m.get('key1'))
 
 
-    print("\nPDF - get example 2")
-    print("-------------------")
-    m = HashMap(150, hash_function_2)
-    for i in range(200, 300, 7):
-        m.put(str(i), i * 10)
-    print(m.size, m.capacity)
-    for i in range(200, 300, 21):
-        print(i, m.get(str(i)), m.get(str(i)) == i * 10)
-        print(i + 1, m.get(str(i + 1)), m.get(str(i + 1)) == (i + 1) * 10)
+    # print("\nPDF - get example 2")
+    # print("-------------------")
+    # m = HashMap(150, hash_function_2)
+    # for i in range(200, 300, 7):
+    #     m.put(str(i), i * 10)
+    # print(m.size, m.capacity)
+    # for i in range(200, 300, 21):
+    #     print(i, m.get(str(i)), m.get(str(i)) == i * 10)
+    #     print(i + 1, m.get(str(i + 1)), m.get(str(i + 1)) == (i + 1) * 10)
 
 
     # print("\nPDF - remove example 1")
