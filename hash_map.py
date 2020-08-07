@@ -1,7 +1,8 @@
 # Course: CS261 - Data Structures
-# Assignment: 5
+# Assignment 5
 # Student: Ashley Owens
-# Description:
+# Description: Uses a DA to implement a hash table data structure. 
+# Performs collsion resolution using chaining via a singly linked list.
 
 
 # Import pre-written DynamicArray and LinkedList classes
@@ -58,15 +59,11 @@ class HashMap:
 
     def clear(self) -> None:
         """
-        Clears the contents of the hash map.
+        Clears the contents of the hash map by replacing it with a new one.
         """
-        self.buckets = DynamicArray()
-        for _ in range(self.capacity):
-            self.buckets.append(LinkedList())
-        self.capacity = self.capacity
-        self.hash_function = self.hash_function
-        self.size = 0
-        
+        new = HashMap(self.capacity, self.hash_function)
+        self.buckets = new.buckets
+        self.size = new.size
 
     def get(self, key: str) -> object:
         """
@@ -229,18 +226,18 @@ class HashMap:
 # BASIC TESTING
 if __name__ == "__main__":
 
-    # print("\nPDF - empty_buckets example 1")
-    # print("-----------------------------")
-    # m = HashMap(100, hash_function_1)
-    # print(m.empty_buckets(), m.size, m.capacity)
-    # m.put('key1', 10)
-    # print(m.empty_buckets(), m.size, m.capacity)
-    # m.put('key2', 20)
-    # print(m.empty_buckets(), m.size, m.capacity)
-    # m.put('key1', 30)
-    # print(m.empty_buckets(), m.size, m.capacity)
-    # m.put('key4', 40)
-    # print(m.empty_buckets(), m.size, m.capacity)
+    print("\nPDF - empty_buckets example 1")
+    print("-----------------------------")
+    m = HashMap(100, hash_function_1)
+    print(m.empty_buckets(), m.size, m.capacity)
+    m.put('key1', 10)
+    print(m.empty_buckets(), m.size, m.capacity)
+    m.put('key2', 20)
+    print(m.empty_buckets(), m.size, m.capacity)
+    m.put('key1', 30)
+    print(m.empty_buckets(), m.size, m.capacity)
+    m.put('key4', 40)
+    print(m.empty_buckets(), m.size, m.capacity)
 
 
     # print("\nPDF - empty_buckets example 2")
