@@ -210,15 +210,18 @@ class HashMap:
 
     def get_keys(self) -> DynamicArray:
         """
-        TODO: Write this implementation
+        Obtains every key stored in the current hash map.
+        Returns:
+            DynamicArray: contains all current keys
         """
+        # Initializes a DA object
         keys = DynamicArray()
 
+        # Iterates through the hash map, adding each key to the DA.
         for i in range(self.buckets.length()):
             linkedlst = self.buckets.get_at_index(i)
             for node in linkedlst:
-                if node:
-                    keys.append(node.key)
+                keys.append(node.key)
 
         return keys
 
@@ -385,15 +388,13 @@ if __name__ == "__main__":
     # print(m)
 
 
-    print("\nPDF - resize example 2")
-    print("----------------------")
-    m = HashMap(75, hash_function_2)
-    keys = [i for i in range(1, 1000, 13)]
-    for key in keys:
-        m.put(str(key), key * 42)
-    print(m.size, m.capacity)
-    
-    
+    # print("\nPDF - resize example 2")
+    # print("----------------------")
+    # m = HashMap(75, hash_function_2)
+    # keys = [i for i in range(1, 1000, 13)]
+    # for key in keys:
+    #     m.put(str(key), key * 42)
+    # print(m.size, m.capacity)
     
     # for capacity in range(111, 1000, 117):
     #     m.resize_table(capacity)
@@ -408,20 +409,22 @@ if __name__ == "__main__":
     #     print(capacity, result, m.size, m.capacity, round(m.table_load(), 2))
 
 
-  
     # print("\nPDF - get_keys example 1")
     # print("------------------------")
     # m = HashMap(10, hash_function_2)
     # for i in range(100, 200, 10):
     #     m.put(str(i), str(i * 10))
     # print(m.get_keys())
+    # print(m)
 
     # m.resize_table(1)
     # print(m.get_keys())
+    # print(m)
 
     # m.put('200', '2000')
     # m.remove('100')
     # m.resize_table(2)
     # print(m.get_keys())
+    # print(m)
 
     
