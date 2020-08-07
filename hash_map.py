@@ -75,7 +75,7 @@ class HashMap:
         Returns:
             object: the value associated with the given key or None
         """
-        # Obtains the LL object and node associated with given key.
+        # Obtains the LL object and node associated with the given key.
         linkedlst, node = self.get_node(key)
         
         if not node:
@@ -91,7 +91,7 @@ class HashMap:
             key (str): key
             value (object): value
         """
-        # Obtains the LL object and node associated with given key.
+        # Obtains the LL object and node associated with the given key.
         linkedlst, node = self.get_node(key)
 
         if not node:
@@ -109,7 +109,7 @@ class HashMap:
         Args:
             key (str): given key
         """
-        # Obtains the LL object and node associated with given key.
+        # Obtains the LL object and node associated with the given key.
         linkedlst, node = self.get_node(key)
         
         if not node:
@@ -117,10 +117,11 @@ class HashMap:
         
         # Removes the key: value pair from the linked list.
         linkedlst.remove(key)
+        self.size -= 1
     
     def get_node(self, key: str) -> object:
         """
-        Gets the Linked List node associated with the given key.
+        Gets the Linked List and node associated with the given key.
         Args:
             key (str): node.key
         Returns:
@@ -144,7 +145,7 @@ class HashMap:
         Returns:
             bool: True if present, else False
         """
-        # Obtains the LL object and node associated with given key.
+        # Obtains the LL object and node associated with the given key.
         linkedlst, node = self.get_node(key)
         
         if not node:
@@ -178,15 +179,48 @@ class HashMap:
 
     def resize_table(self, new_capacity: int) -> None:
         """
-        TODO: Write this implementation
+        Creates a new hash map congruous to the new capacity size. All existing
+        key: value pairs are rehashed and placed accordingly in the new hash table.
+        Args:
+            new_capacity (int): desired capacity of the new hash map
         """
-        pass
+        # Performs no operations for capacity input error.
+        if new_capacity < 1:
+            return 
+
+        # Creates a new hash map according to new capacity.
+        self.new = HashMap(new_capacity, self.hash_function)
+        
+        # Obtains all the keys located in the current hash map.
+        keys = self.get_keys()
+        
+        # Iterates through the keys, rehashing and placing them in the new hashmap.
+        for i in range(keys.length()):
+            key = keys.get_at_index(i)
+            prev_lst, node = self.get_node(key)
+            hash_index = self.new.hash_function(key) % self.new.capacity
+            linkedlst = self.new.buckets.get_at_index(hash_index)
+            linkedlst.insert(node.key, node.value)
+            self.new.size += 1
+        
+        # Updates the old hash map to the new one.
+        self.buckets = self.new.buckets
+        self.capacity = self.new.capacity
+        self.size = self.new.size
 
     def get_keys(self) -> DynamicArray:
         """
         TODO: Write this implementation
         """
-        return DynamicArray()
+        keys = DynamicArray()
+
+        for i in range(self.buckets.length()):
+            linkedlst = self.buckets.get_at_index(i)
+            for node in linkedlst:
+                if node:
+                    keys.append(node.key)
+
+        return keys
 
 
 # BASIC TESTING
@@ -337,7 +371,7 @@ if __name__ == "__main__":
     # print(m.get('key1'))
     # m.remove('key1')
     # print(m.get('key1'))
-    # m.remove('key4')
+    # print(m.remove('key4'))
 
 
     # print("\nPDF - resize example 1")
@@ -345,18 +379,22 @@ if __name__ == "__main__":
     # m = HashMap(20, hash_function_1)
     # m.put('key1', 10)
     # print(m.size, m.capacity, m.get('key1'), m.contains_key('key1'))
+    # # print(m)
     # m.resize_table(30)
     # print(m.size, m.capacity, m.get('key1'), m.contains_key('key1'))
+    # print(m)
 
 
-    # print("\nPDF - resize example 2")
-    # print("----------------------")
-    # m = HashMap(75, hash_function_2)
-    # keys = [i for i in range(1, 1000, 13)]
-    # for key in keys:
-    #     m.put(str(key), key * 42)
-    # print(m.size, m.capacity)
-
+    print("\nPDF - resize example 2")
+    print("----------------------")
+    m = HashMap(75, hash_function_2)
+    keys = [i for i in range(1, 1000, 13)]
+    for key in keys:
+        m.put(str(key), key * 42)
+    print(m.size, m.capacity)
+    
+    
+    
     # for capacity in range(111, 1000, 117):
     #     m.resize_table(capacity)
 
@@ -370,6 +408,7 @@ if __name__ == "__main__":
     #     print(capacity, result, m.size, m.capacity, round(m.table_load(), 2))
 
 
+  
     # print("\nPDF - get_keys example 1")
     # print("------------------------")
     # m = HashMap(10, hash_function_2)
