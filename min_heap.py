@@ -1,12 +1,11 @@
 # Course: CS261 - Data Structures
-# Assignment: 5
-# Student:
-# Description:
+# Assignment 5
+# Student: Ashley Owens
+# Description: Uses a dynamic array to implement a min heap data structure. 
 
 
 # Import pre-written DynamicArray and LinkedList classes
 from a5_include import *
-
 
 class MinHeapException(Exception):
     """
@@ -46,7 +45,9 @@ class MinHeap:
 
     def add(self, node: object) -> None:
         """
-        TODO: Write this implementation
+        Adds a new object to the MinHeap while maintaining min heap structure.
+        Args:
+            node (object): item to be added to the heap
         """
         # Saves the index position of the new node.
         position = self.heap.length()
@@ -101,8 +102,11 @@ class MinHeap:
         """
         if self.is_empty():
             raise MinHeapException
-
+        
+        # Swaps first and last elements.
         self.heap.swap(0, self.heap.length() - 1)
+
+        # Percolates first element downward into min heap position.
         self.trickle_down(0)
         return self.heap.pop()
 
@@ -117,11 +121,11 @@ class MinHeap:
         left = 2 * parent + 1
         right = 2 * parent + 2
 
-        # Stops trickling down at the end of the DA.
+        # Stops percolation at the end of the DA.
         if left >= (self.heap.length() - 1) and right >= (self.heap.length() - 1):
             return
 
-        # Performs one final swap for a parent node with a smaller single left child. 
+        # Checks for a parent node with a single left child that's smaller. 
         if left == (self.heap.length() - 2) and right == (self.heap.length() - 1):
             if self.heap.get_at_index(parent) > self.heap.get_at_index(left):
                 self.heap.swap(parent, left)
@@ -144,38 +148,49 @@ class MinHeap:
 
     def build_heap(self, da: DynamicArray) -> None:
         """
-        TODO: Write this implementation
+        Receives a dynamic array and builds a proper MinHeap object.
+        Args:
+            da (DynamicArray): DA object in any order
         """
-        pass
+        # Initializes the DA elements into a heap object.
+        self.heap = DynamicArray()
+        for i in range(da.length()):
+            item = da.get_at_index(i)
+            self.heap.append(item)
 
+        # First non-leaf node.
+        start = (self.heap.length() // 2) - 1
+
+        # Iterates through half the array, ordering elements into min heap structure.
+        for i in range(start, -1, -1):
+            self.trickle_down(i)
+        
 
 # BASIC TESTING
 if __name__ == '__main__':
 
-    # print("\nPDF - add example 1")
-    # print("-------------------")
-    # h = MinHeap()
-    # print(h, h.is_empty())
-    # for value in range(300, 200, -15):
-    #     h.add(value)
-    #     print(h)
+    print("\nPDF - add example 1")
+    print("-------------------")
+    h = MinHeap()
+    print(h, h.is_empty())
+    for value in range(300, 200, -15):
+        h.add(value)
+        print(h)
 
-    # print("\nPDF - add example 2")
-    # print("-------------------")
-    # h = MinHeap(['fish', 'bird'])
-    # print(h)
-    # for value in ['monkey', 'zebra', 'elephant', 'horse', 'bear']:
-    #     h.add(value)
-    #     print(h)
+    print("\nPDF - add example 2")
+    print("-------------------")
+    h = MinHeap(['fish', 'bird'])
+    print(h)
+    for value in ['monkey', 'zebra', 'elephant', 'horse', 'bear']:
+        h.add(value)
+        print(h)
 
 
-    # print("\nPDF - get_min example 1")
-    # print("-----------------------")
-    # h = MinHeap(['fish', 'bird'])
-    # print(h)
-    # print(h.get_min(), h.get_min())
-    # h = MinHeap()
-    # print(h.get_min())
+    print("\nPDF - get_min example 1")
+    print("-----------------------")
+    h = MinHeap(['fish', 'bird'])
+    print(h)
+    print(h.get_min(), h.get_min())
 
 
     print("\nPDF - remove_min example 1")
@@ -186,13 +201,13 @@ if __name__ == '__main__':
         print(h.remove_min())
 
 
-    # print("\nPDF - build_heap example 1")
-    # print("--------------------------")
-    # da = DynamicArray([100, 20, 6, 200, 90, 150, 300])
-    # h = MinHeap(['zebra', 'apple'])
-    # print(h)
-    # h.build_heap(da)
-    # print(h)
-    # da.set_at_index(0, 500)
-    # print(da)
-    # print(h)
+    print("\nPDF - build_heap example 1")
+    print("--------------------------")
+    da = DynamicArray([100, 20, 6, 200, 90, 150, 300])
+    h = MinHeap(['zebra', 'apple'])
+    print(h)
+    h.build_heap(da)
+    print(h)
+    da.set_at_index(0, 500)
+    print(da)
+    print(h)
